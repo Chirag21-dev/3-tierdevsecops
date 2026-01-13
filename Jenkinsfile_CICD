@@ -6,6 +6,11 @@ pipeline {
         nodejs 'nodejs23'
     }
 
+    environment {
+        //IMAGE_NAME = "my-app:${BUILD_NUMBER}"
+        SBOM_FILE  = "sbom-image.json"
+    }
+
     /*environment {
         SCANNER_HOME = tool 'sonar-scanner'
     }*/
@@ -38,6 +43,21 @@ pipeline {
                 sh 'gitleaks detect --source ./api --exit-code 1'
             }
         }
+
+        stage('Generate Image SBOM (Trivy)') {
+            steps {
+                sh '''
+                    trivy fs . --format cyclonedx \
+                    --output ${SBOM_FILE}
+                '''
+            }
+        }
+
+        stage('Trivy FS Scan') {
+            steps {
+                sh 'trivy fs --format table -o fs-report.html .'
+            }
+        }
         
         /*stage('SonarQube Analysis') {
             steps {
@@ -54,11 +74,7 @@ pipeline {
                 }
             }
         }
-        stage('Trivy FS Scan') {
-            steps {
-                sh 'trivy fs --format table -o fs-report.html .'
-            }
-        }
+        
         
         stage('Build-Tag & Push Backend Docker Image') {
             steps {
