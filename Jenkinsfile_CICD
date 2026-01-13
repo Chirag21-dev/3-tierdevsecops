@@ -143,6 +143,17 @@ pipeline {
                 }
             }
         }*/
+
+        post {
+        always {
+            archiveArtifacts artifacts: "${SBOM_FILE}", allowEmptyArchive: false
+        }
+        failure {
+            echo "❌ Image contains HIGH/CRITICAL vulnerabilities"
+        }
+        success {
+            echo "✅ SBOM created and image is clean"
+        }
             
     }
 }
