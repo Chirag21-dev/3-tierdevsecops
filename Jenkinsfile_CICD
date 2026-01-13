@@ -11,9 +11,9 @@ pipeline {
         SBOM_FILE  = "sbom-image.json"
     }
 
-    /*environment {
+    environment {
         SCANNER_HOME = tool 'sonar-scanner'
-    }*/
+    }
     stages {
         stage('Git Checkout') {
             steps {
@@ -60,9 +60,9 @@ pipeline {
         }
     }
         
-        /*stage('SonarQube Analysis') {
+        stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('sonar') {
+                withSonarQubeEnv('sonarserver') {
                     sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=NodeJS-Project \
                             -Dsonar.projectKey=NodeJS-Project '''
                 }
@@ -77,7 +77,7 @@ pipeline {
         }
         
         
-        stage('Build-Tag & Push Backend Docker Image') {
+        /*stage('Build-Tag & Push Backend Docker Image') {
             steps {
                 script {
                     withDockerRegistry(credentialsId: 'docker-cred') {
