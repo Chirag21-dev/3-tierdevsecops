@@ -142,7 +142,9 @@ pipeline {
             }
         }*/
 
-        post {
+    }
+
+    post {
         always {
             archiveArtifacts artifacts: "${SBOM_FILE}", allowEmptyArchive: false
         }
@@ -155,5 +157,5 @@ pipeline {
             
     }
   }
-}
+
 
