@@ -58,6 +58,7 @@ pipeline {
                 sh 'trivy fs --format table -o fs-report.html .'
             }
         }
+    }
         
         /*stage('SonarQube Analysis') {
             steps {
@@ -157,4 +158,4 @@ pipeline {
             
     }
 }
-}
+
