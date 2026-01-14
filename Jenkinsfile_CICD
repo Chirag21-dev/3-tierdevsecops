@@ -104,14 +104,14 @@ pipeline {
              
         }
 
-        stage('docker compose') {
+        /*stage('docker compose') {
             steps {
                 script {
                    sh ' docker compose up -d '
-            }}}
+            }}}*/
         
         
-        /*stage('Manual Approval for Production') {
+        stage('Manual Approval for Production') {
             steps {
                 timeout(time: 1, unit: 'HOURS') {
                     input message: 'Approve deployment to PRODUCTION?', ok: 'Deploy'
